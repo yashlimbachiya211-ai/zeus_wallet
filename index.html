@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head><title>ZEUS WALLET</title></head>
+<body style="background:black;color:white;text-align:center">
+<h1>ZEUS WALLET</h1>
+<input id="pin" placeholder="Enter PIN"><br><br>
+<button onclick="create()">Create Wallet</button>
+<button onclick="balance()">Balance</button>
+<p id="out"></p>
+<script>
+const API = "http://localhost:3000";
+const userId = "demoUser";
+async function create(){
+ const pin=document.getElementById("pin").value;
+ const res=await fetch(API+"/create",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({userId,pin})});
+ const data=await res.json();
+ document.getElementById("out").innerText=data.address||data.msg;
+}
+async function balance(){
+ const res=await fetch(API+"/balance/"+userId);
+ const data=await res.json();
+ document.getElementById("out").innerText=data.balance||data.msg;
+}
+</script>
+</body>
+</html>
